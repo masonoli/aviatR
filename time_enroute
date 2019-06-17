@@ -1,0 +1,28 @@
+# aviatR::time_enroute calculates the total time, time per leg, and total distance for VFR flight planning.
+
+# leg is a vector, of length L, of the distances (nm) per leg
+# gsp is a vector, also of length L, of the groundspeed for each leg (calculated by heading of the leg and current winds aloft, using E6B)
+
+time_enroute <- function(leg, gsp) {
+  
+  ete <- leg/gsp*60
+  
+  # total time per leg
+  time_per_leg <- hms::as.hms(ete*60)
+  time_per_leg <- as.data.frame(time_per_leg)
+  
+  # total time enroute
+  tt <- hms::as.hms(sum(ete)*60)
+  
+  # total distance
+  d <- sum(leg)
+  
+  print(
+    list(
+      paste("Total time (hh:mm:ss.s): ", tt, sep = ""))
+    , time_per_leg
+    , (paste("Total distance: ", d, "nm", sep = ""))
+    )
+  
+}
+
